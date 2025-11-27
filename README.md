@@ -1,3 +1,4 @@
+edit
 # Solidity Gas Optimization Stress Test
 
 A multi-file Solidity project designed to challenge the Solidity Prism (/gas) optimization tool with progressively complex inefficiencies across three smart contracts. 
