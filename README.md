@@ -1,24 +1,33 @@
-# Solidity Gas Optimization Stress Test
 
-A multi-file Solidity project designed to challenge gas optimization tools and auditors with progressively complex inefficiencies across three smart contracts. This repository serves as a comprehensive test case for evaluating the depth and accuracy of gas analysis capabilities.
+Generates detailed gas consumption reports per function.
 
-## Project Overview
+---
 
-This project contains three interacting Solidity contracts that deliberately incorporate gas inefficiencies of varying difficulty levels:
+## Analysis Objectives
 
-- **SimpleStorage.sol** — Easy gas anti-patterns (storage loops)
-- **WeightedVoting.sol** — Intermediate gas issues (struct packing, redundant storage access)
-- **AdvancedProcess.sol** — Complex gas optimization challenges (multi-slot struct packing, nested storage reads, SafeMath overhead)
+This project is designed to test your gas optimization tool's ability to:
 
-Each contract imports and uses the others, creating realistic cross-contract dependencies while maintaining clear educational value for gas optimization analysis.
+1. **Detect obvious inefficiencies** (storage loops, redundant logic)
+2. **Identify structural sub-optimality** (struct packing, variable ordering)
+3. **Find subtle multi-layer issues** (nested access patterns, external call caching)
+4. **Suggest precise, actionable improvements** (reordering, memory caching, unchecked blocks)
+5. **Estimate realistic gas savings** (before/after comparisons)
 
-## Contracts & Gas Issues
+---
 
-### 1. SimpleStorage.sol
+## Key Learnings
 
-**Purpose:** A simple data storage contract that demonstrates fundamental gas anti-patterns.
+- **Struct packing matters:** Reordering struct fields can reduce storage slots by 66-75%
+- **Loop optimization is critical:** Caching external reads outside loops saves 500+ gas per iteration
+- **Redundant checks are expensive:** Eliminate duplicate access patterns and dual-tracking
+- **Modern Solidity built-ins:** SafeMath overhead is unnecessary in ^0.8.0+
 
-**Gas Inefficiencies (Easy to detect):**
+---
 
-- **Problem: Storage writes in loop**  
-  The `fillAll(uint256 value)` function writes to a storage array `data[100]` in a tight loop. Each write to storage (SSTORE opcode) costs 20,000 gas (or 5,000 if slot already warm). Writing 100 times can consume 100,000+ gas.
+## References
+
+- [Solidity Gas Optimization Tips](https://soliditylang.org/blog/)
+- [OpenZeppelin Gas Optimization Guide](https://docs.openzeppelin.com/contracts/4.x/)
+- [EVM Opcode Costs](https://www.evm.codes/)
+
+---
